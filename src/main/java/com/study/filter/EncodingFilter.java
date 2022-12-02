@@ -1,6 +1,8 @@
 package com.study.filter;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -9,26 +11,34 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpFilter;
+import javax.servlet.http.HttpServletRequest;
 
 @WebFilter("/*")
-public class Filter1 extends HttpFilter implements Filter {
+public class EncodingFilter extends HttpFilter implements Filter {
        
-    public Filter1() {
-        super();
-    }
+	private static final long serialVersionUID = 1L;
 
-	public void destroy() {
-	}
-
+	public void destroy() {}
+	
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		System.out.println("필터1 실행됨!!!");
 		
-		request.setAttribute("name", "junil");
+		HttpServletRequest hsr = (HttpServletRequest) request;
 		
+		if(hsr.getMethod().equalsIgnoreCase("POST")) {
+			request.setCharacterEncoding(StandardCharsets.UTF_8.name());
+		}
+		// 전처리
 		chain.doFilter(request, response);
+		// 후처리
 	}
 
-	public void init(FilterConfig fConfig) throws ServletException {
-		
-	}
+	public void init(FilterConfig fConfig) throws ServletException {}
+
 }
+
+
+
+
+
+
+
