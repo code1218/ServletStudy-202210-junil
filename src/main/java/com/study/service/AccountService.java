@@ -20,4 +20,25 @@ public class AccountService {
 		return user != null;
 	}
 	
+	public void register(User user) {
+		UserRepository.getInstance().saveUser(user);
+	}
+	
+	public User loadUserByUsername(String username) {
+		return UserRepository.getInstance().findUserByUsername(username);
+	}
+	
+	public boolean checkPassword(User user, String password) {
+		return user.getPassword().equals(password);
+	}
 }
+
+
+
+
+
+
+
+
+
+
